@@ -40,7 +40,6 @@ export default async function Home() {
               style={{
                 background: '#12121a',
                 border: '1px solid #1e1e2e',
-                focusRingColor: '#e63946'
               }}
             />
             <button
