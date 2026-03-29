@@ -36,7 +36,7 @@ export default async function Home() {
             <input
               type="text"
               placeholder="Search a city... Bangkok, Rio, NYC"
-              className="flex-1 px-6 py-4 rounded-full text-white placeholder-gray-500 outline-none focus:ring-2"
+              className="flex-1 px-6 py-4 rounded-full text-white placeholder-gray-500 outline-none"
               style={{
                 background: '#12121a',
                 border: '1px solid #1e1e2e',
@@ -77,16 +77,28 @@ export default async function Home() {
           {cities?.map((city) => (
             <Link href={`/cities/${city.slug}`} key={city.id}>
               <div className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
-                style={{ background: '#12121a', border: '1px solid #1e1e2e', height: '200px' }}>
-                
-                {/* Placeholder gradient */}
+                style={{ height: '200px' }}>
+
+                {/* City Image */}
+                {city.image_url ? (
+                  <img
+                    src={city.image_url}
+                    alt={city.name}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0"
+                    style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
+                )}
+
+                {/* Dark overlay */}
                 <div className="absolute inset-0"
-                  style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
-                
+                  style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%)' }} />
+
                 {/* Content */}
                 <div className="absolute bottom-0 left-0 right-0 p-6">
                   <h3 className="text-xl font-black">{city.name}</h3>
-                  <p className="text-gray-400 text-sm">{city.country}</p>
+                  <p className="text-gray-300 text-sm">{city.country}</p>
                 </div>
 
                 {/* Hover accent */}
