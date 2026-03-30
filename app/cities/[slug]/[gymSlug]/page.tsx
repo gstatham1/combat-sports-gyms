@@ -20,10 +20,18 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
 
   return (
     <main className="min-h-screen" style={{ background: '#0a0a0f' }}>
-      <section className="relative h-80 flex items-end px-6 pb-8"
-        style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
-        <div className="absolute inset-0 opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(ellipse at center, #e63946, transparent)' }} />
+
+      {/* Hero */}
+      <section className="relative h-80 flex items-end px-6 pb-8">
+        {gym.image_url ? (
+          <img src={gym.image_url} alt={gym.name}
+            className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0"
+            style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
+        )}
+        <div className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <div className="relative z-10 w-full">
           <div className="flex items-center gap-2 text-gray-400 text-sm mb-4">
             <Link href="/" className="hover:text-white">Home</Link>
@@ -37,7 +45,10 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
         </div>
       </section>
 
+      {/* Content */}
       <section className="px-6 py-12 max-w-4xl mx-auto">
+
+        {/* Sports Tags */}
         <div className="flex flex-wrap gap-3 mb-8">
           {gym.sports?.split(',').map((sport: string) => (
             <span key={sport}
@@ -48,13 +59,17 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
           ))}
         </div>
 
+        {/* Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
-          <div className="rounded-2xl p-6 col-span-2"
+
+          {/* Description */}
+          <div className="rounded-2xl p-6 md:col-span-2"
             style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
             <h2 className="text-lg font-black mb-3">About</h2>
             <p className="text-gray-400 leading-relaxed">{gym.description}</p>
           </div>
 
+          {/* Address */}
           <div className="rounded-2xl p-6"
             style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
             <h2 className="text-lg font-black mb-3">📍 Location</h2>
@@ -68,6 +83,7 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
             )}
           </div>
 
+          {/* Website */}
           <div className="rounded-2xl p-6"
             style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
             <h2 className="text-lg font-black mb-3">🌐 Website</h2>
@@ -82,6 +98,7 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
           </div>
         </div>
 
+        {/* Back Button */}
         <Link href={`/cities/${slug}`}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold transition-all hover:opacity-90"
           style={{ background: '#e63946', color: 'white' }}>

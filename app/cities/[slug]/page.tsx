@@ -18,16 +18,23 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
   if (!city) return (
     <div className="p-8 text-white">
       <p>City not found</p>
-      <p className="text-gray-400 mt-2">Slug: {slug}</p>
     </div>
   )
 
   return (
     <main className="min-h-screen" style={{ background: '#0a0a0f' }}>
-      <section className="relative h-64 flex items-end px-6 pb-8"
-        style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
-        <div className="absolute inset-0 opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(ellipse at center, #e63946, transparent)' }} />
+
+      {/* Hero */}
+      <section className="relative h-64 flex items-end px-6 pb-8">
+        {city.image_url ? (
+          <img src={city.image_url} alt={city.name}
+            className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0"
+            style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
+        )}
+        <div className="absolute inset-0"
+          style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <div className="relative z-10">
           <Link href="/" className="text-gray-400 text-sm hover:text-white mb-4 block">
             ← Back to all cities
@@ -41,6 +48,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         <h2 className="text-2xl font-black mb-2">Gyms in {city.name}</h2>
         <p className="text-gray-400 mb-8">{gyms?.length || 0} gyms found</p>
 
+        {/* Sport Filter */}
         <div className="flex flex-wrap gap-3 mb-10">
           {['All', '🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling'].map((sport) => (
             <span key={sport}
@@ -55,21 +63,40 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           ))}
         </div>
 
+        {/* Gym Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {gyms?.map((gym) => (
             <Link href={`/cities/${city.slug}/${gym.slug}`} key={gym.id}>
               <div className="group rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
                 style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-                <div className="h-48 relative"
-                  style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
-                  <div className="absolute inset-0 flex items-center justify-center text-4xl">🥊</div>
+
+                {/* Image */}
+                <div className="h-48 relative overflow-hidden">
+                  {gym.image_url ? (
+                    <img
+                      src={gym.image_url}
+                      alt={gym.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-4xl"
+                      style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
+                      🥊
+                    </div>
+                  )}
+                  {/* Red top border on hover */}
                   <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ background: '#e63946' }} />
+                  {/* Dark overlay on image */}
+                  <div className="absolute inset-0"
+                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
                 </div>
+
+                {/* Info */}
                 <div className="p-6">
                   <h3 className="text-lg font-black mb-1">{gym.name}</h3>
-                  <p className="text-gray-400 text-sm mb-3">{gym.address}</p>
-                  <p className="text-gray-500 text-sm mb-4">{gym.description}</p>
+                  <p className="text-gray-400 text-sm mb-3">📍 {gym.address}</p>
+                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{gym.description}</p>
                   <div className="flex flex-wrap gap-2">
                     {gym.sports?.split(',').map((sport: string) => (
                       <span key={sport}
