@@ -2,7 +2,7 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 
 export default async function Home() {
-  const { data: cities } = await supabase.from('cities').select('*')
+  const { data: cities } = await supabase.from('cities').select('*').order('display_order', { ascending: true })
 
   return (
     <main>
