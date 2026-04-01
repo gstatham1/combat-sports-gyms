@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
+import GlobeBackground from '@/components/GlobeBackground'
 
 export default async function CitiesPage() {
   const { data: cities } = await supabase
@@ -10,57 +11,74 @@ export default async function CitiesPage() {
   return (
     <main style={{ background: '#0a0a0f' }}>
 
-      {/* Hero */}
-      <section className="relative h-64 flex flex-col items-center justify-center text-center px-6"
-        style={{ background: 'radial-gradient(ellipse at center, #1a0a0f 0%, #0a0a0f 70%)' }}>
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-20 blur-3xl"
+      {/* Hero Section with Globe Background */}
+      <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
+
+        {/* Globe Background */}
+        <GlobeBackground />
+
+        {/* Dark overlay so text is readable */}
+        <div className="absolute inset-0 z-10"
+          style={{ background: 'radial-gradient(ellipse at center, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.85) 70%)' }} />
+
+        {/* Glowing red orb */}
+        <div className="absolute inset-0 z-10 overflow-hidden">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-15 blur-3xl"
             style={{ background: '#e63946' }} />
         </div>
-        <div className="relative z-10">
-          <p className="text-sm font-semibold tracking-widest uppercase mb-3"
+
+        {/* Content */}
+        <div className="relative z-20 max-w-4xl mx-auto">
+          <p className="text-sm font-semibold tracking-widest uppercase mb-4"
             style={{ color: '#e63946' }}>
             The World is Your Gym
           </p>
-          <h1 className="text-4xl md:text-5xl font-black tracking-tight mb-4">
-            Top Destinations
+          <h1 className="text-6xl md:text-8xl font-black tracking-tight mb-6 leading-none">
+            FIGHT<span style={{ color: '#e63946' }}>ATLAS</span>
           </h1>
-          <p className="text-gray-400 max-w-xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-400 mb-12 max-w-2xl mx-auto">
             Find the best combat sports gyms in every city. Train like a local, wherever you travel.
           </p>
+
+          {/* Search Bar */}
+          <div className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto mb-12">
+            <input
+              type="text"
+              placeholder="Search a city... Bangkok, Rio, NYC"
+              className="flex-1 px-6 py-4 rounded-full text-white placeholder-gray-500 outline-none"
+              style={{ background: 'rgba(18,18,26,0.8)', border: '1px solid #1e1e2e' }}
+            />
+            <button
+              className="px-8 py-4 rounded-full font-bold text-white transition-all hover:opacity-90"
+              style={{ background: '#e63946' }}>
+              Search
+            </button>
+          </div>
+
+          {/* Sport Tags */}
+          <div className="flex flex-wrap justify-center gap-3">
+            {['🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling', '🥋 Judo'].map((sport) => (
+              <span key={sport}
+                className="px-4 py-2 rounded-full text-sm text-gray-400 cursor-pointer hover:text-white transition-all"
+                style={{ background: 'rgba(18,18,26,0.8)', border: '1px solid #1e1e2e' }}>
+                {sport}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-gray-600">
+          <span className="text-xs tracking-widest uppercase">Top Destinations</span>
+          <div className="w-px h-8 bg-gray-600 animate-pulse" />
         </div>
       </section>
 
-      {/* Search Bar */}
-      <div className="px-6 py-8 max-w-xl mx-auto">
-        <div className="flex gap-3">
-          <input
-            type="text"
-            placeholder="Search a city... Bangkok, Rio, NYC"
-            className="flex-1 px-6 py-4 rounded-full text-white placeholder-gray-500 outline-none"
-            style={{ background: '#12121a', border: '1px solid #1e1e2e' }}
-          />
-          <button
-            className="px-8 py-4 rounded-full font-bold text-white transition-all hover:opacity-90"
-            style={{ background: '#e63946' }}>
-            Search
-          </button>
-        </div>
-      </div>
-
-      {/* Sport Tags */}
-      <div className="flex flex-wrap justify-center gap-3 px-6 mb-12">
-        {['🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling', '🥋 Judo'].map((sport) => (
-          <span key={sport}
-            className="px-4 py-2 rounded-full text-sm text-gray-400 cursor-pointer hover:text-white transition-all"
-            style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-            {sport}
-          </span>
-        ))}
-      </div>
-
       {/* Cities Grid */}
-      <section className="px-6 pb-24 max-w-7xl mx-auto">
+      <section className="px-6 py-24 max-w-7xl mx-auto">
+        <h2 className="text-3xl font-black mb-2">Top Destinations</h2>
+        <p className="text-gray-400 mb-12">The world's best cities for combat sports training</p>
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cities?.map((city) => (
             <Link href={`/cities/${city.slug}`} key={city.id}>

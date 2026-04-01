@@ -5,9 +5,9 @@ import Navbar from './Navbar'
 
 export default function NavbarWrapper() {
   const pathname = usePathname()
-  
-  // Hide navbar on homepage since globe has its own UI
-  if (pathname === '/') return null
-  
+
+  // Hide navbar on globe page since it has its own UI
+  if (pathname === '/' || pathname === '/globe') return null
+
   return <Navbar />
 }
