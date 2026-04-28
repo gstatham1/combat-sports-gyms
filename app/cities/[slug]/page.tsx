@@ -1,5 +1,39 @@
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<Metadata> {
+  const { slug } = await params
+  const { data: city } = await supabase
+    .from('cities')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  if (!city) return { title: 'City Not Found' }
+
+  return {
+    title: `Best Combat Sports Gyms in ${city.name}`,
+    description: `Find the best MMA, BJJ, Muay Thai and Boxing gyms in ${city.name}, ${city.country}. Verified gyms for combat sports travelers.`,
+    keywords: [
+      `MMA gym ${city.name}`,
+      `BJJ gym ${city.name}`,
+      `Muay Thai gym ${city.name}`,
+      `boxing gym ${city.name}`,
+      `combat sports ${city.name}`,
+      `martial arts ${city.name}`,
+      `train MMA ${city.name}`,
+      `fight gym ${city.name}`,
+    ],
+    openGraph: {
+      title: `Best Combat Sports Gyms in ${city.name}`,
+      description: `Find the best MMA, BJJ, Muay Thai and Boxing gyms in ${city.name}, ${city.country}.`,
+      type: 'website',
+    },
+  }
+}
 
 export default async function CityPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -36,7 +70,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         <div className="absolute inset-0"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%)' }} />
         <div className="relative z-10">
-          <Link href="/" className="text-gray-400 text-sm hover:text-white mb-4 block">
+          <Link href="/cities" className="text-gray-400 text-sm hover:text-white mb-4 block">
             ← Back to all cities
           </Link>
           <h1 className="text-5xl font-black">{city.name}</h1>
@@ -45,8 +79,17 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       </section>
 
       <section className="px-6 py-12 max-w-7xl mx-auto">
-        <h2 className="text-2xl font-black mb-2">Gyms in {city.name}</h2>
-        <p className="text-gray-400 mb-8">{gyms?.length || 0} gyms found</p>
+        {/* SEO-friendly intro paragraph */}
+        <div className="mb-10">
+          <h2 className="text-2xl font-black mb-2">
+            Combat Sports Gyms in {city.name}
+          </h2>
+          <p className="text-gray-400 max-w-2xl">
+            Looking to train MMA, BJJ, Muay Thai or Boxing in {city.name}? 
+            FightAtlas has curated the best combat sports gyms in {city.name}, {city.country} 
+            for travelers and locals alike. {gyms?.length || 0} verified gyms listed.
+          </p>
+        </div>
 
         {/* Sport Filter */}
         <div className="flex flex-wrap gap-3 mb-10">
@@ -69,13 +112,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
             <Link href={`/cities/${city.slug}/${gym.slug}`} key={gym.id}>
               <div className="group rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
                 style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-
-                {/* Image */}
                 <div className="h-48 relative overflow-hidden">
                   {gym.image_url ? (
                     <img
                       src={gym.image_url}
-                      alt={gym.name}
+                      alt={`${gym.name} - ${city.name}`}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   ) : (
@@ -84,15 +125,11 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
                       🥊
                     </div>
                   )}
-                  {/* Red top border on hover */}
                   <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ background: '#e63946' }} />
-                  {/* Dark overlay on image */}
                   <div className="absolute inset-0"
                     style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
                 </div>
-
-                {/* Info */}
                 <div className="p-6">
                   <h3 className="text-lg font-black mb-1">{gym.name}</h3>
                   <p className="text-gray-400 text-sm mb-3">📍 {gym.address}</p>

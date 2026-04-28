@@ -1,5 +1,46 @@
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string, gymSlug: string }> }
+): Promise<Metadata> {
+  const { slug, gymSlug } = await params
+
+  const { data: city } = await supabase
+    .from('cities')
+    .select('*')
+    .eq('slug', slug)
+    .single()
+
+  const { data: gym } = await supabase
+    .from('gyms')
+    .select('*')
+    .eq('slug', gymSlug)
+    .single()
+
+  if (!gym || !city) return { title: 'Gym Not Found' }
+
+  const sports = gym.sports?.split(',').map((s: string) => s.trim()).join(', ')
+
+  return {
+    title: `${gym.name} — ${city.name} | FightAtlas`,
+    description: `${gym.name} in ${city.name}, ${city.country}. ${sports} gym. ${gym.description?.slice(0, 120)}...`,
+    keywords: [
+      gym.name,
+      `${gym.name} ${city.name}`,
+      ...gym.sports?.split(',').map((s: string) => `${s.trim()} gym ${city.name}`) || [],
+      `martial arts ${city.name}`,
+      `combat sports ${city.name}`,
+    ],
+    openGraph: {
+      title: `${gym.name} — ${city.name}`,
+      description: `${gym.name} in ${city.name}. ${sports} training for all levels.`,
+      type: 'website',
+      images: gym.image_url ? [{ url: gym.image_url }] : [],
+    },
+  }
+}
 
 export default async function GymPage({ params }: { params: Promise<{ slug: string, gymSlug: string }> }) {
   const { slug, gymSlug } = await params
@@ -59,22 +100,21 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
           ))}
         </div>
 
-        {/* Info Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
 
           {/* Description */}
           <div className="rounded-2xl p-6 md:col-span-2"
             style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-            <h2 className="text-lg font-black mb-3">About</h2>
+            <h2 className="text-lg font-black mb-3">About {gym.name}</h2>
             <p className="text-gray-400 leading-relaxed">{gym.description}</p>
           </div>
 
-          {/* Address */}
+          {/* Location */}
           <div className="rounded-2xl overflow-hidden md:col-span-2"
             style={{ border: '1px solid #1e1e2e' }}>
             <div className="p-6" style={{ background: '#12121a' }}>
               <h2 className="text-lg font-black mb-1">📍 Location</h2>
-             <p className="text-gray-400 mb-4">{gym.address}</p>
+              <p className="text-gray-400 mb-4">{gym.address}</p>
             </div>
             {gym.google_maps_url && (
               <iframe
@@ -85,13 +125,8 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-             />
-           )}
-           {!gym.google_maps_url && (
-             <div className="p-6" style={{ background: '#12121a' }}>
-               <p className="text-gray-600 text-sm">No map available</p>
-             </div>
-           )}
+              />
+            )}
           </div>
 
           {/* Website */}
@@ -106,6 +141,16 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
             ) : (
               <p className="text-gray-600">No website listed</p>
             )}
+          </div>
+
+          {/* City link */}
+          <div className="rounded-2xl p-6"
+            style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
+            <h2 className="text-lg font-black mb-3">🏙️ City</h2>
+            <Link href={`/cities/${slug}`}
+              className="text-gray-400 hover:text-white transition-colors">
+              More gyms in {city?.name} →
+            </Link>
           </div>
         </div>
 
