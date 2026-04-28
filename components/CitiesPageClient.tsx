@@ -84,7 +84,7 @@ export default function CitiesPageClient({ cities }: { cities: City[] }) {
           </div>
 
           {/* Sport Tags */}
-          <div className="flex flex-wrap justify-center gap-3">
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
             {SPORTS.map((sport) => (
               <span key={sport}
                 className="px-4 py-2 rounded-full text-sm text-gray-400 cursor-pointer hover:text-white transition-all"
@@ -93,6 +93,14 @@ export default function CitiesPageClient({ cities }: { cities: City[] }) {
               </span>
             ))}
           </div>
+
+          {/* Submit a Gym Button */}
+          <Link
+            href="/submit"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white transition-all hover:opacity-90 hover:scale-105"
+            style={{ background: '#e63946', border: '2px solid #e63946' }}>
+            🥊 Submit a Gym
+          </Link>
         </div>
 
         {/* Scroll indicator */}
