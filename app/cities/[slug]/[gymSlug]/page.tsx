@@ -70,17 +70,28 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
           </div>
 
           {/* Address */}
-          <div className="rounded-2xl p-6"
-            style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-            <h2 className="text-lg font-black mb-3">📍 Location</h2>
-            <p className="text-gray-400">{gym.address}</p>
+          <div className="rounded-2xl overflow-hidden md:col-span-2"
+            style={{ border: '1px solid #1e1e2e' }}>
+            <div className="p-6" style={{ background: '#12121a' }}>
+              <h2 className="text-lg font-black mb-1">📍 Location</h2>
+             <p className="text-gray-400 mb-4">{gym.address}</p>
+            </div>
             {gym.google_maps_url && (
-              <a href={gym.google_maps_url} target="_blank" rel="noopener noreferrer"
-                className="inline-block mt-4 text-sm font-semibold"
-                style={{ color: '#e63946' }}>
-                Open in Google Maps →
-              </a>
-            )}
+              <iframe
+                src={gym.google_maps_url}
+                width="100%"
+                height="300"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+             />
+           )}
+           {!gym.google_maps_url && (
+             <div className="p-6" style={{ background: '#12121a' }}>
+               <p className="text-gray-600 text-sm">No map available</p>
+             </div>
+           )}
           </div>
 
           {/* Website */}

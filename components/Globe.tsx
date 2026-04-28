@@ -26,7 +26,17 @@ const CITY_COORDINATES: Record<string, { lat: number; lng: number }> = {
   'las-vegas': { lat: 36.1699, lng: -115.1398 },
   'montreal': { lat: 45.5017, lng: -73.5673 },
   'rome': { lat: 41.9028, lng: 12.4964 },
+  'phuket': { lat: 7.8804, lng: 98.3923 },
+  'stockholm': { lat: 59.3293, lng: 18.0686 },
+  'casablanca': { lat: 33.5731, lng: -7.5898 },
+  'toronto': { lat: 43.6532, lng: -79.3832 },
+  'istanbul': { lat: 41.0082, lng: 28.9784 },
+  'barcelona': { lat: 41.3851, lng: 2.1734 },
+  'amsterdam': { lat: 52.3676, lng: 4.9041 },
+  'mexico-city': { lat: 19.4326, lng: -99.1332 },
+  'dubai': { lat: 25.2048, lng: 55.2708 },
 }
+
 
 export default function GlobeComponent({ cities }: { cities: City[] }) {
   const globeRef = useRef<HTMLDivElement>(null)
