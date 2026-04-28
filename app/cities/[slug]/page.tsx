@@ -1,5 +1,6 @@
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
+import GymFilter from '@/components/GymFilter'
 import type { Metadata } from 'next'
 
 export async function generateMetadata(
@@ -24,8 +25,6 @@ export async function generateMetadata(
       `boxing gym ${city.name}`,
       `combat sports ${city.name}`,
       `martial arts ${city.name}`,
-      `train MMA ${city.name}`,
-      `fight gym ${city.name}`,
     ],
     openGraph: {
       title: `Best Combat Sports Gyms in ${city.name}`,
@@ -79,83 +78,20 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
       </section>
 
       <section className="px-6 py-12 max-w-7xl mx-auto">
-        {/* SEO-friendly intro paragraph */}
+        {/* SEO intro */}
         <div className="mb-10">
           <h2 className="text-2xl font-black mb-2">
             Combat Sports Gyms in {city.name}
           </h2>
           <p className="text-gray-400 max-w-2xl">
-            Looking to train MMA, BJJ, Muay Thai or Boxing in {city.name}? 
-            FightAtlas has curated the best combat sports gyms in {city.name}, {city.country} 
-            for travelers and locals alike. {gyms?.length || 0} verified gyms listed.
+            Looking to train MMA, BJJ, Muay Thai or Boxing in {city.name}?
+            FightAtlas has curated the best combat sports gyms in {city.name}, {city.country}
+            for travelers and locals alike.
           </p>
         </div>
 
-        {/* Sport Filter */}
-        <div className="flex flex-wrap gap-3 mb-10">
-          {['All', '🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling'].map((sport) => (
-            <span key={sport}
-              className="px-4 py-2 rounded-full text-sm cursor-pointer transition-all hover:text-white"
-              style={{
-                background: sport === 'All' ? '#e63946' : '#12121a',
-                border: '1px solid #1e1e2e',
-                color: sport === 'All' ? 'white' : '#9ca3af'
-              }}>
-              {sport}
-            </span>
-          ))}
-        </div>
-
-        {/* Gym Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {gyms?.map((gym) => (
-            <Link href={`/cities/${city.slug}/${gym.slug}`} key={gym.id}>
-              <div className="group rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
-                style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-                <div className="h-48 relative overflow-hidden">
-                  {gym.image_url ? (
-                    <img
-                      src={gym.image_url}
-                      alt={`${gym.name} - ${city.name}`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl"
-                      style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
-                      🥊
-                    </div>
-                  )}
-                  <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ background: '#e63946' }} />
-                  <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-black mb-1">{gym.name}</h3>
-                  <p className="text-gray-400 text-sm mb-3">📍 {gym.address}</p>
-                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{gym.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {gym.sports?.split(',').map((sport: string) => (
-                      <span key={sport}
-                        className="px-3 py-1 rounded-full text-xs"
-                        style={{ background: '#1e1e2e', color: '#e63946' }}>
-                        {sport.trim()}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        {gyms?.length === 0 && (
-          <div className="text-center py-24 text-gray-500">
-            <p className="text-4xl mb-4">🥊</p>
-            <p className="text-xl">No gyms listed yet in {city.name}</p>
-            <p className="mt-2">Be the first to submit one!</p>
-          </div>
-        )}
+        {/* Gym Filter Component */}
+        <GymFilter gyms={gyms || []} city={city} />
       </section>
     </main>
   )
