@@ -152,7 +152,7 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
             style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
             <h2 className="text-lg font-black mb-3">🌐 Website</h2>
             {gym.website ? (
-              
+              <a
                 href={'https://' + gym.website.replace('https://', '').replace('http://', '')}
                 target="_blank"
                 rel="noopener noreferrer"
