@@ -14,7 +14,15 @@ type City = {
 
 const SPORTS = ['🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling', '🥋 Judo']
 
-export default function CitiesPageClient({ cities }: { cities: City[] }) {
+export default function CitiesPageClient({
+  cities,
+  gymCount,
+  cityCount,
+}: {
+  cities: City[]
+  gymCount: number
+  cityCount: number
+}) {
   const [search, setSearch] = useState('')
 
   const filtered = cities.filter(city => {
@@ -31,21 +39,36 @@ export default function CitiesPageClient({ cities }: { cities: City[] }) {
       {/* Hero Section */}
       <section className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden">
 
-        {/* Globe Background */}
         <GlobeBackground />
 
-        {/* Dark overlay */}
         <div className="absolute inset-0 z-10"
           style={{ background: 'radial-gradient(ellipse at center, rgba(10,10,15,0.6) 0%, rgba(10,10,15,0.85) 70%)' }} />
 
-        {/* Glowing red orb */}
         <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 rounded-full opacity-15 blur-3xl"
             style={{ background: '#e63946' }} />
         </div>
 
-        {/* Hero Content */}
         <div className="relative z-20 flex flex-col items-center w-full max-w-3xl mx-auto">
+
+          {/* Trust stats */}
+          <div className="flex items-center gap-6 mb-6">
+            <div className="text-center">
+              <p className="text-2xl font-black" style={{ color: '#e63946' }}>{gymCount}+</p>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">Gyms</p>
+            </div>
+            <div className="w-px h-8" style={{ background: '#1e1e2e' }} />
+            <div className="text-center">
+              <p className="text-2xl font-black" style={{ color: '#e63946' }}>{cityCount}</p>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">Cities</p>
+            </div>
+            <div className="w-px h-8" style={{ background: '#1e1e2e' }} />
+            <div className="text-center">
+              <p className="text-2xl font-black" style={{ color: '#e63946' }}>6</p>
+              <p className="text-xs text-gray-500 uppercase tracking-widest">Sports</p>
+            </div>
+          </div>
+
           <p className="text-sm font-semibold tracking-widest uppercase mb-4"
             style={{ color: '#e63946' }}>
             The World is Your Gym
@@ -94,16 +117,15 @@ export default function CitiesPageClient({ cities }: { cities: City[] }) {
             ))}
           </div>
 
-          {/* Submit a Gym Button */}
+          {/* Submit Button */}
           <Link
             href="/submit"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-bold text-white transition-all hover:opacity-90 hover:scale-105"
-            style={{ background: '#e63946', border: '2px solid #e63946' }}>
+            style={{ background: '#e63946' }}>
             🥊 Submit a Gym
           </Link>
         </div>
 
-        {/* Scroll indicator */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 text-gray-600">
           <span className="text-xs tracking-widest uppercase">Top Destinations</span>
           <div className="w-px h-8 bg-gray-600 animate-pulse" />
@@ -149,7 +171,7 @@ export default function CitiesPageClient({ cities }: { cities: City[] }) {
                   )}
                   <div className="absolute inset-0"
                     style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%)' }} />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                  <div className="absolute bottom-0 left-0 right:0 p-6">
                     <h3 className="text-xl font-black">{city.name}</h3>
                     <p className="text-gray-300 text-sm">{city.country}</p>
                   </div>

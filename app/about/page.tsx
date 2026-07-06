@@ -116,8 +116,7 @@ export default function AboutPage() {
           style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)', border: '1px solid #e63946' }}>
           <h2 className="text-2xl font-black mb-3">Know a Great Gym?</h2>
           <p className="text-gray-400 mb-6 max-w-lg mx-auto">
-            Help the community grow. If you train at a gym that deserves to be
-            on FightAtlas, submit it and we'll review it within 48 hours.
+            Help the community grow. If you train at a gym that deserves to be on FightAtlas, submit it and we'll review it within 48 hours.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/submit"

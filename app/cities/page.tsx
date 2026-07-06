@@ -8,9 +8,17 @@ export default async function CitiesPage() {
     .select('*')
     .order('display_order', { ascending: true })
 
+  const { count: gymCount } = await supabase
+    .from('gyms')
+    .select('*', { count: 'exact', head: true })
+
   return (
     <main style={{ background: '#0a0a0f' }}>
-      <CitiesPageClient cities={cities || []} />
+      <CitiesPageClient
+        cities={cities || []}
+        gymCount={gymCount || 0}
+        cityCount={cities?.length || 0}
+      />
     </main>
   )
 }

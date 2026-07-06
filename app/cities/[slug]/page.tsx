@@ -68,7 +68,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
         )}
         <div className="absolute inset-0"
           style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 100%)' }} />
-        <div className="relative z-10">
+        <div className="relative z-10 px-6">
           <Link href="/cities" className="text-gray-400 text-sm hover:text-white mb-4 block">
             ← Back to all cities
           </Link>
@@ -85,7 +85,7 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
           </h2>
           <p className="text-gray-400 max-w-2xl">
             Looking to train MMA, BJJ, Muay Thai or Boxing in {city.name}?
-            FightAtlas has curated the best combat sports gyms in {city.name}, {city.country}
+            FightAtlas has curated the best combat sports gyms in {city.name}, {city.country} 
             for travelers and locals alike.
           </p>
         </div>
