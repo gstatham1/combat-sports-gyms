@@ -164,6 +164,44 @@ export default async function GymPage({ params }: { params: Promise<{ slug: stri
             )}
           </div>
 
+          {/* Visitor Info */}
+          <div
+            className="rounded-2xl p-6 md:col-span-2"
+            style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
+            <h2 className="text-lg font-black mb-4">🧳 Visitor Info</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="rounded-xl p-4"
+                style={{ background: '#0a0a0f', border: '1px solid #1e1e2e' }}>
+                <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Drop-in Price</p>
+                <p className="text-white font-semibold">
+                  {gym.dropin_price || 'Contact gym'}
+                </p>
+              </div>
+              <div className="rounded-xl p-4"
+                style={{ background: '#0a0a0f', border: '1px solid #1e1e2e' }}>
+                <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">Visitors Welcome</p>
+                {gym.visitor_friendly === true ? (
+                  <p className="font-semibold" style={{ color: '#10b981' }}>✅ Yes</p>
+                ) : gym.visitor_friendly === false ? (
+                  <p className="font-semibold" style={{ color: '#e63946' }}>❌ No</p>
+                ) : (
+                  <p className="font-semibold" style={{ color: '#9ca3af' }}>Contact gym</p>
+                )}
+              </div>
+              <div className="rounded-xl p-4"
+                style={{ background: '#0a0a0f', border: '1px solid #1e1e2e' }}>
+                <p className="text-xs text-gray-500 uppercase tracking-widest mb-1">English Friendly</p>
+                {gym.english_friendly === true ? (
+                  <p className="font-semibold" style={{ color: '#10b981' }}>✅ Yes</p>
+                ) : gym.english_friendly === false ? (
+                  <p className="font-semibold" style={{ color: '#e63946' }}>❌ No</p>
+                ) : (
+                  <p className="font-semibold" style={{ color: '#9ca3af' }}>Unknown</p>
+                )}
+              </div>
+            </div>
+          </div>
+
           {/* City */}
           <div
             className="rounded-2xl p-6"

@@ -108,12 +108,21 @@ export default function CitiesPageClient({
 
           {/* Sport Tags */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {SPORTS.map((sport) => (
-              <span key={sport}
-                className="px-4 py-2 rounded-full text-sm text-gray-400 cursor-pointer hover:text-white transition-all"
+            {[
+              { label: '🥊 Boxing', slug: 'boxing' },
+              { label: '🥋 BJJ', slug: 'bjj' },
+              { label: '🤼 MMA', slug: 'mma' },
+              { label: '🦵 Muay Thai', slug: 'muay-thai' },
+              { label: '🤸 Wrestling', slug: 'wrestling' },
+              { label: '🥋 Judo', slug: 'judo' },
+            ].map((sport) => (
+              <Link
+                key={sport.slug}
+                href={`/sports/${sport.slug}`}
+                className="px-4 py-2 rounded-full text-sm text-gray-400 hover:text-white transition-all"
                 style={{ background: 'rgba(18,18,26,0.8)', border: '1px solid #1e1e2e' }}>
-                {sport}
-              </span>
+                {sport.label}
+              </Link>
             ))}
           </div>
 
