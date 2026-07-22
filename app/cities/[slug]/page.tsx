@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import GymFilter from '@/components/GymFilter'
 import type { Metadata } from 'next'
+import EmailCapture from '@/components/EmailCapture'
+
 
 export async function generateMetadata(
   { params }: { params: Promise<{ slug: string }> }
@@ -92,6 +94,12 @@ export default async function CityPage({ params }: { params: Promise<{ slug: str
 
         {/* Gym Filter Component */}
         <GymFilter gyms={gyms || []} city={city} />
+
+        {/* Email Capture */}
+        <div className="mt-16">
+          <EmailCapture city={city.name} />
+        </div>
+    
       </section>
     </main>
   )
