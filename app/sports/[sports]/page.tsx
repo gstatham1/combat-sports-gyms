@@ -40,16 +40,26 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
     <div className="p-8 text-white">Sport not found</div>
   )
 
+  // Fetch gyms and cities separately
   const { data: gyms } = await supabase
     .from('gyms')
-    .select('*, cities(name, slug, country)')
+    .select('*')
     .ilike('sports', `%${meta.label}%`)
 
+  const { data: cities } = await supabase
+    .from('cities')
+    .select('*')
+
   // Group gyms by city
-  const gymsByCity: Record<string, { cityName: string, citySlug: string, country: string, gyms: any[] }> = {}
+  const gymsByCity: Record<string, {
+    cityName: string
+    citySlug: string
+    country: string
+    gyms: any[]
+  }> = {}
 
   gyms?.forEach(gym => {
-    const city = gym.cities as any
+    const city = cities?.find(c => c.id === gym.city_id)
     if (!city) return
     if (!gymsByCity[city.slug]) {
       gymsByCity[city.slug] = {
@@ -92,10 +102,20 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
 
       {/* City Groups */}
       <section className="px-6 pb-24 max-w-6xl mx-auto">
+        {cityGroups.length === 0 && (
+          <div className="text-center py-24 text-gray-500">
+            <p className="text-4xl mb-4">{meta.emoji}</p>
+            <p className="text-xl">No {meta.label} gyms listed yet</p>
+            <p className="mt-2 mb-8">Be the first to submit one!</p>
+            <Link href="/submit"
+              className="px-6 py-3 rounded-full font-semibold text-white"
+              style={{ background: '#e63946' }}>
+              Submit a Gym
+            </Link>
+          </div>
+        )}
         {cityGroups.map(group => (
           <div key={group.citySlug} className="mb-12">
-
-            {/* City Header */}
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="text-2xl font-black">{group.cityName}</h2>
@@ -108,7 +128,6 @@ export default async function SportPage({ params }: { params: Promise<{ sport: s
               </Link>
             </div>
 
-            {/* Gym Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {group.gyms.map(gym => (
                 <Link href={`/cities/${group.citySlug}/${gym.slug}`} key={gym.id}>
