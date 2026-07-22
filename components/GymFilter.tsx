@@ -101,50 +101,42 @@ export default function GymFilter({ gyms, city }: { gyms: Gym[], city: City }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((gym) => (
             <Link href={`/cities/${city.slug}/${gym.slug}`} key={gym.id}>
-              <div className="group rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
-                style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
-                <div className="h-48 relative overflow-hidden">
-                  {gym.image_url ? (
-                    <img
-                      src={gym.image_url}
-                      alt={`${gym.name} - ${city.name}`}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-4xl"
-                      style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
-                      🥊
+              <div className="group cursor-pointer transition-all hover:scale-105">
+                    <div className="rounded-2xl overflow-hidden"
+                      style={{ height: '180px', position: 'relative' }}>
+                      {gym.image_url ? (
+                        <img
+                          src={gym.image_url}
+                          alt={`${gym.name} - ${city.name}`}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-4xl"
+                          style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }}>
+                          🥊
+                        </div>
+                      )}
+                      <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                        style={{ background: '#e63946' }} />
+                      <div className="absolute inset-0"
+                        style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.3) 0%, transparent 60%)' }} />
                     </div>
-                  )}
-                  <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ background: '#e63946' }} />
-                  <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)' }} />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-lg font-black mb-1">{gym.name}</h3>
-                  <p className="text-gray-400 text-sm mb-3">📍 {gym.address}</p>
-                  <p className="text-gray-500 text-sm mb-4 line-clamp-2">{gym.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {gym.sports?.split(',').map((sport: string) => (
-                      <span key={sport}
-                        className="px-3 py-1 rounded-full text-xs"
-                        style={{
-                          background: activeSport !== 'All' &&
-                            sport.trim().toLowerCase().includes(
-                              activeSport.replace(/[^a-zA-Z\s]/g, '').trim().toLowerCase()
-                            ) ? '#e63946' : '#1e1e2e',
-                          color: activeSport !== 'All' &&
-                            sport.trim().toLowerCase().includes(
-                              activeSport.replace(/[^a-zA-Z\s]/g, '').trim().toLowerCase()
-                            ) ? 'white' : '#e63946'
-                        }}>
-                        {sport.trim()}
-                      </span>
-                    ))}
+                    {/* Text outside overflow-hidden */}
+                    <div className="pt-3 px-1">
+                      <h3 className="text-lg font-black mb-1 text-white">{gym.name}</h3>
+                      <p className="text-gray-400 text-sm mb-2">📍 {gym.address}</p>
+                      <p className="text-gray-500 text-sm mb-3 line-clamp-2">{gym.description}</p>
+                      <div className="flex flex-wrap gap-2">
+                        {gym.sports?.split('/').map((sport: string) => (
+                          <span key={sport}
+                            className="px-3 py-1 rounded-full text-xs"
+                            style={{ background: '#1e1e2e', color: '#e63946' }}>
+                            {sport.trim()}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
             </Link>
           ))}
         </div>
