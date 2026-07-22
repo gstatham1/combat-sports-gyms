@@ -12,7 +12,14 @@ type City = {
   image_url: string
 }
 
-const SPORTS = ['🥊 Boxing', '🥋 BJJ', '🤼 MMA', '🦵 Muay Thai', '🤸 Wrestling', '🥋 Judo']
+const SPORTS = [
+  { label: '🥊 Boxing', slug: 'boxing' },
+  { label: '🥋 BJJ', slug: 'bjj' },
+  { label: '🤼 MMA', slug: 'mma' },
+  { label: '🦵 Muay Thai', slug: 'muay-thai' },
+  { label: '🤸 Wrestling', slug: 'wrestling' },
+  { label: '🥋 Judo', slug: 'judo' },
+]
 
 export default function CitiesPageClient({
   cities,
@@ -108,14 +115,7 @@ export default function CitiesPageClient({
 
           {/* Sport Tags */}
           <div className="flex flex-wrap justify-center gap-3 mb-8">
-            {[
-              { label: '🥊 Boxing', slug: 'boxing' },
-              { label: '🥋 BJJ', slug: 'bjj' },
-              { label: '🤼 MMA', slug: 'mma' },
-              { label: '🦵 Muay Thai', slug: 'muay-thai' },
-              { label: '🤸 Wrestling', slug: 'wrestling' },
-              { label: '🥋 Judo', slug: 'judo' },
-            ].map((sport) => (
+            {SPORTS.map((sport) => (
               <Link
                 key={sport.slug}
                 href={`/sports/${sport.slug}`}
@@ -169,23 +169,27 @@ export default function CitiesPageClient({
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((city) => (
               <Link href={`/cities/${city.slug}`} key={city.id}>
-                <div className="group relative rounded-2xl overflow-hidden cursor-pointer transition-all hover:scale-105"
-                  style={{ height: '200px' }}>
-                  {city.image_url ? (
-                    <img src={city.image_url} alt={city.name}
-                      className="absolute inset-0 w-full h-full object-cover" />
-                  ) : (
+                <div className="group cursor-pointer transition-all hover:scale-105">
+                  {/* Image container with overflow hidden for rounded corners */}
+                  <div className="relative rounded-2xl overflow-hidden"
+                    style={{ height: '200px' }}>
+                    {city.image_url ? (
+                      <img src={city.image_url} alt={city.name}
+                        className="absolute inset-0 w-full h-full object-cover" />
+                    ) : (
+                      <div className="absolute inset-0"
+                        style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
+                    )}
                     <div className="absolute inset-0"
-                      style={{ background: 'linear-gradient(135deg, #1a0a0f, #0a0f1a)' }} />
-                  )}
-                  <div className="absolute inset-0"
-                    style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 100%)' }} />
-                  <div className="absolute bottom-0 left-0 right:0 p-6">
-                    <h3 className="text-xl font-black">{city.name}</h3>
-                    <p className="text-gray-300 text-sm">{city.country}</p>
+                      style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%)' }} />
+                    <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                      style={{ background: '#e63946' }} />
                   </div>
-                  <div className="absolute top-0 left-0 right-0 h-1 opacity-0 group-hover:opacity-100 transition-opacity"
-                    style={{ background: '#e63946' }} />
+                  {/* Text OUTSIDE overflow-hidden so it never gets clipped */}
+                  <div className="pt-3 px-1">
+                    <h3 className="text-lg font-black text-white">{city.name}</h3>
+                    <p className="text-gray-400 text-sm">{city.country}</p>
+                  </div>
                 </div>
               </Link>
             ))}

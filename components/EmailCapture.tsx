@@ -26,7 +26,7 @@ export default function EmailCapture({ city }: { city?: string }) {
 
   return (
     <div className="rounded-2xl p-8 text-center"
-      style={{ background: '#12121a', border: '1px solid #1e1e2e' }}>
+      style={{ background: '#12121a', border: '1px solid #1e1e2e', paddingBottom: '2.5rem' }}>
       <h3 className="text-xl font-black mb-2">
         {city ? `Get notified when we add gyms in ${city}` : 'Stay in the loop'}
       </h3>
